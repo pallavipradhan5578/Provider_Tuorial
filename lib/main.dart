@@ -1,5 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_perference/homepage.dart';
 import 'package:shared_perference/provider_tutorial/homescreen.dart';
+import 'package:shared_perference/provider_tutorial/provider/count_provider.dart';
+import 'package:shared_perference/provider_tutorial/provider/example_one_provider.dart';
+import 'package:shared_perference/provider_tutorial/provider/favourite_provider.dart';
+import 'package:shared_perference/provider_tutorial/provider/theme_changes.dart';
+import 'package:shared_perference/provider_tutorial/screens/count_example.dart';
+import 'package:shared_perference/provider_tutorial/screens/dart_theme_screen.dart';
+import 'package:shared_perference/provider_tutorial/screens/example_one_screen.dart';
+import 'package:shared_perference/provider_tutorial/screens/favourite/favourite_screen.dart';
+import 'package:shared_perference/provider_tutorial/stateful_widget_screen.dart';
+import 'package:shared_perference/provider_tutorial/why_provider.dart';
 import 'package:shared_perference/splash_screen.dart';
 
 void main() {
@@ -12,29 +24,32 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home:  HomeScreen (),debugShowCheckedModeBanner: false,
-    );
+
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => CountProvider()),
+          ChangeNotifierProvider(create: (_) => ExampleOneProvider()),
+          ChangeNotifierProvider(create: (_) => FavouriteItemProvider()),
+          ChangeNotifierProvider(create: (_) => ThemeChanger())
+        ],
+        child: Builder(builder: (BuildContext context){
+          final themeChanger=Provider.of<ThemeChanger>(context);
+
+
+          return MaterialApp(
+            title: 'Flutter Demo',
+            themeMode: themeChanger.themeMode,
+            theme: ThemeData(brightness: Brightness.light,primaryColor: Colors.purple,
+              primarySwatch: Colors.cyan,
+              appBarTheme: AppBarTheme(backgroundColor: Colors.teal),iconTheme: IconThemeData(
+                color: Colors.brown
+              ),
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              useMaterial3: true,
+            ),darkTheme: ThemeData(brightness: Brightness.dark),
+            home: StatefulWidgetScreen (),
+            debugShowCheckedModeBanner: false,
+          );
+        }));
   }
 }
-
