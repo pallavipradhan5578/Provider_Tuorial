@@ -16,6 +16,7 @@ import 'package:shared_perference/provider_tutorial/screens/value_notify_lister.
 import 'package:shared_perference/provider_tutorial/stateful_widget_screen.dart';
 import 'package:shared_perference/provider_tutorial/why_provider.dart';
 import 'package:shared_perference/splash_screen.dart';
+import 'package:shared_perference/tts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),darkTheme: ThemeData(brightness: Brightness.dark),
-            home: LoginWithPro  (),
+            home: TextToSpeechExample  (),
             debugShowCheckedModeBanner: false,
           );
         }));
